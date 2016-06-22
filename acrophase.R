@@ -12,7 +12,7 @@ plotAcros <- function(acrs, pvals, type, blue=colors$blue, red=colors$red) {
 
   p1 <- ggplot() +
     geom_bar(stat="identity", position="dodge", alpha=0.9, width=0.9, data=pd, size=0.5, aes(x=acr-0.5, y=frac, color=round(frac,1) > 2, fill=round(frac,1) > 2)) +
-    geom_text(aes(x=seq(0, 23, 3), y=-0.9, label=seq(0, 23, 3)), color="black", size=2) +
+    geom_text(aes(x=seq(0, 23, 3), y=-1.3, label=seq(0, 23, 3)), color="black", size=2) +
     geom_text(data=pd[round(pd$frac,1) > 2,], vjust=-0, hjust=-0, size=2, aes(x=acr - 0.5, y=frac+1.5, label=paste0(round(frac,1)))) +
     coord_polar(start=0) +
     scale_x_continuous("", breaks = seq(1, 24), labels = seq(1, 24), limits=c(0, 24)) +
