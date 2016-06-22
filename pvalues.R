@@ -1,6 +1,6 @@
 source("colors.R")
 
-pvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
+plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
                             colCtrl=colors$red
                             ) {
 
