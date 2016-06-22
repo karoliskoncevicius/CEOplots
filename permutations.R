@@ -1,6 +1,6 @@
 source("colors.R")
 
-permutationsCaseCtrl <- function(realCase, permCase, realCtrl, permCtrl,
+plotPermutationsCaseCtrl <- function(realCase, permCase, realCtrl, permCtrl,
                                  colCase=colors$blue, colCtrl=colors$red
                                  ) {
 

@@ -1,6 +1,6 @@
 source("colors.R")
 
-surface <- function(ints, coords, ZT, palette=c(colors$blue, colors$blue, "#EBEBEB", colors$red, colors$red)) {
+plotSurface <- function(ints, coords, ZT, palette=c(colors$blue, colors$blue, "#EBEBEB", colors$red, colors$red)) {
   ordered <- order(coords)
   coords <- coords[ordered]
   ints   <- ints[ordered,]
