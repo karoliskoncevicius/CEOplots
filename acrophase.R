@@ -8,7 +8,7 @@ plotAcros <- function(acrs, pvals, blue=colors$blue, red=colors$red) {
 
   frac <- tapply(pvals <= 0.05, acrs, mean) / 0.05
   acr  <- as.numeric(names(frac))
-  pd   <- data.frame(acr, frac, type=type)
+  pd   <- data.frame(acr, frac)
 
   p1 <- ggplot() +
     geom_bar(stat="identity", position="dodge", alpha=0.9, width=0.9, data=pd, size=0.5, aes(x=acr-0.5, y=frac, color=round(frac,1) > 2, fill=round(frac,1) > 2)) +
