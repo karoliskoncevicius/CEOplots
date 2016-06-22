@@ -16,8 +16,8 @@ plotAcros <- function(acrs, pvals, type, blue=colors$blue, red=colors$red) {
     geom_text(data=pd[round(pd$frac,1) > 2,], vjust=-0, hjust=-0, size=2, aes(x=acr - 0.5, y=frac+1.5, label=paste0(round(frac,1)))) +
     coord_polar(start=0) +
     scale_x_continuous("", breaks = seq(1, 24), labels = seq(1, 24), limits=c(0, 24)) +
-    scale_fill_manual("", labels=c("< 5%", "> 5%"), values=c(blue, red), guide=FALSE) +
-    scale_color_manual("", labels=c("< 5%", "> 5%"), values=c(blue, red), guide=FALSE) +
+    scale_fill_manual("", labels=c("< 10%", "> 10%"), values=c(blue, red), guide=FALSE) +
+    scale_color_manual("", labels=c("< 10%", "> 10%"), values=c(blue, red), guide=FALSE) +
     ylim(-5, 15) +
 
     theme(text=element_text(size=7, color="red"),
