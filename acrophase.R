@@ -2,7 +2,7 @@ source("colors.R")
 
 library(ggplot2); library(gridExtra)
 
-plotAcros <- function(acrs, pvals, type, blue=colors$blue, red=colors$red) {
+plotAcros <- function(acrs, pvals, blue=colors$blue, red=colors$red) {
 
   acrs <- ceiling(acrs)
 
