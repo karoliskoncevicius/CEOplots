@@ -1,7 +1,6 @@
 source("colors.R")
 
-library(ggplot2)
-library(gridExtra)
+library(ggplot2); library(gridExtra)
 
 plotAcros <- function(acrs, pvals, type, blue=colors$blue, red=colors$red) {
 
