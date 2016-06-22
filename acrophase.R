@@ -28,7 +28,9 @@ plotAcros <- function(acrs, pvals, type, blue=colors$blue, red=colors$red) {
           panel.background = element_blank(),
           axis.text.x=element_blank(),
           axis.text.y=element_blank(),
-          axis.title.y=element_blank())
+          axis.title.y=element_blank(),
+          axis.line=element_blank(),
+          axis.ticks=element_blank())
 
     p1
 }
