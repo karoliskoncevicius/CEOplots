@@ -13,6 +13,7 @@ plotVolcano <- function(
 {
   require(ggplot2)
   require(data.table)
+  require(scales)
   pd <- data.table(X=coefficients, Y=-log10(pvalues))
   pd[, Fill := as.numeric(p.adjust(pvalues, pAdjustmentMethod) < 0.05)]
   pd[Fill == TRUE & X < 0, Fill := Fill + 1]
