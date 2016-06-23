@@ -23,5 +23,8 @@ plotVolcano <- function(
     xlab(xAxisLabel) + 
     ylab(yAxisLabel) + 
     scale_color_manual(values=c(nonSignificant, positive, negative), guide=FALSE) + 
-    getUnifiedGGTheme()
+    geom_vline(xintercept=0)+
+    getUnifiedGGTheme()+
+    theme(axis.line.y=element_blank())
+  
 }
