@@ -7,7 +7,7 @@ plotVolcano <- function(
   negative=colors$blue, 
   positive=colors$red,
   xAxisLabel="Coefficient",
-  yAxisLabel=expression(-log[10]*'(Bonferroni q-value)'),
+  yAxisLabel=expression(-log[10]*'(p-value)'),
   pAdjustmentMethod="bonferroni")
 {
   require(ggplot2)
