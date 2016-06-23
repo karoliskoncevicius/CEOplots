@@ -18,7 +18,7 @@ plotVolcano <- function(
   pd[Fill == TRUE & X < 0, Fill := Fill + 1]
   rng <- max(abs(pd$X))*1.05
   
-  ggplot(pd, aes(X, Y, 
+  p <- ggplot(pd, aes(X, Y, 
                       color=as.factor(Fill))) + 
     geom_point(size=.15, alpha=1) + 
     geom_hline(yintercept=-log10(0.05/length(pvalues)),linetype=3)+
@@ -27,8 +27,11 @@ plotVolcano <- function(
     scale_color_manual(values=c(nonSignificant, positive, negative), guide=FALSE) + 
     geom_vline(xintercept=0)+
     getUnifiedGGTheme()+
-    theme(axis.line.y=element_blank())+
-    scale_x_continuous(limits = c(-rng,rng))
+    theme(axis.line.y=element_blank())
  
-  
+  if(isPercent){
+    p+scale_x_continuous(limits = c(-rng,rng),labels = percent)
+  } else {
+    p+scale_x_continuous(limits = c(-rng,rng))
+  }
 }
