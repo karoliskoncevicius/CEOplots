@@ -1,7 +1,6 @@
 
 source("colors.R", chdir=TRUE)
 source("ggtheme.R", chdir=TRUE)
-source("multiplot.R", chdir=TRUE)
 
 
 # Assuming Matts padlock data as input having the following structure:
