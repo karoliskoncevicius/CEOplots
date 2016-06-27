@@ -63,13 +63,11 @@ source("multiplot.R", chdir=TRUE)
 #  $ aging          :'data.frame':	8011 obs. of  2 variables:
 #   ..$ pval: num [1:8011] 3.73e-01 3.13e-02 6.45e-01 3.96e-03 1.07e-11 ...
 #   ..$ dir : num [1:8011] -0.0929 -0.2223 0.0482 -0.2945 0.6296 ...
-# 
-# In addition, pThreshold parameter is used to define oscillating probes.
-
-oscilationFitsAndTheirAging <- function(dat, pThreshold) {
+oscilationFitsAndTheirAging <- function(dat) {
 	require(data.table)
 	require(ggplot2)
 	require(foreach)
+	require(gridExtra)
 	getFittedCurve <- function(locus, age, dat) {
 		t <- 1:24
 		sinterm <- dat$osc[[age]][locus, "sin"]
@@ -79,53 +77,90 @@ oscilationFitsAndTheirAging <- function(dat, pThreshold) {
 		data.table(X=t, Y=values, M=intercept)
 	}
 
+	# First, select the top most significant oscillating loci
+	# from Age 9 and draw their curves
 
-	lidx <- which(
-		dat$osc$A9[, "pval"] < pThreshold & 
-		dat$osc$A9[, "acro"] >= 12 & 
-		dat$osc$A9[, "acro"] < 24)
+	lidx1 <- which(
+			dat$osc$A9[, "acro"] >= 12 &
+			dat$osc$A9[, "acro"] < 24)
+	lidx1 <- lidx1[ order(dat$osc$A9[lidx1, "pval"])[1:300]]
 
 	lidx2 <- which(
-		dat$osc$A9[, "pval"] < pThreshold & 
-		dat$osc$A9[, "acro"] < 12 & 
-		dat$osc$A9[, "acro"] >= 0 )
+			dat$osc$A9[, "acro"] < 12 &
+			dat$osc$A9[, "acro"] >= 0)
+	lidx2 <- lidx2[ order(dat$osc$A9[lidx2, "pval"])[1:300]]
 
 	dt <- 
-	foreach(locus=lidx, .combine=rbind) %do% {
-		curve <- getFittedCurve(locus, "A9", dat)
-		ageChange <- mean(dat$pctM[["A25"]][locus,]) - 
-			mean(dat$pctM[["A9"]][locus,])
-		data.table(Locus=locus, curve, AgeChange=ageChange)
-	}
-	dt[, Acro := "PM, [12-24]"]
-
+		foreach(locus=lidx1, .combine=rbind) %do% {
+			curve <- getFittedCurve(locus, "A9", dat)
+			data.table(Locus=locus, curve)
+		}
+	dt[, Acro := "[12-24)"]
 	dt2 <- 
-	foreach(locus=lidx2, .combine=rbind) %do% {
-		curve <- getFittedCurve(locus, "A9", dat)
-		ageChange <- mean(dat$pctM[["A25"]][locus,]) - 
-			mean(dat$pctM[["A9"]][locus,])
-		data.table(Locus=locus, curve, AgeChange=ageChange)
-	}
-	dt2[, Acro := "AM, [0-12]"]
-
+		foreach(locus=lidx2, .combine=rbind) %do% {
+			curve <- getFittedCurve(locus, "A9", dat)
+			data.table(Locus=locus, curve)
+		}
+	dt2[, Acro := "[0-12)"]
 	dt <- rbind(dt, dt2)
+	rm(dt2)
+
+
+	# Select loci at various p thresholds
+	# And compute their Age change
+	dt2 <- foreach(p=seq(0, 1, 0.02), .combine=rbind) %do% {
+		lidx1 <- which(
+				dat$osc$A9[, "acro"] >= 12 &
+				dat$osc$A9[, "acro"] < 24 &
+				dat$osc$A9[, "pval"] < p + 0.02 & 
+				dat$osc$A9[, "pval"] >= p)
+		res <- foreach(locus=lidx1, .combine=rbind) %do% {
+			ageChange <- mean(dat$pctM[["A25"]][locus,]) - 
+							mean(dat$pctM[["A9"]][locus,])
+			data.table(Locus=locus, AgeChange=ageChange, P=p, Acro="[12-24)")
+		}
+
+		lidx2 <- which(
+				dat$osc$A9[, "acro"] < 12 &
+				dat$osc$A9[, "acro"] >= 0 &
+				dat$osc$A9[, "pval"] < p + 0.02 & 
+				dat$osc$A9[, "pval"] >= p)
+		res2 <- foreach(locus=lidx2, .combine=rbind) %do% {
+			ageChange <- mean(dat$pctM[["A25"]][locus,]) - 
+							mean(dat$pctM[["A9"]][locus,])
+			data.table(Locus=locus, AgeChange=ageChange, P=p, Acro="[0-12)")
+		}
+		rbind(res, res2)
+	}
+
+	# Plot the fits and age change
+	r1 <- dt[, range(Y)]
+	r2 <- dt2[, list(mean(AgeChange), sd(AgeChange)), list(Acro, P)][, range(V1)]
+	yrange <- range(c(r1, r2))
 
 	p1 <- ggplot(dt) + 
 		geom_line(aes(X, Y, color=Acro, group=Locus), alpha=0.1, size=0.25) + 
-		xlab("ZT") + ylab("beta") + 
-		geom_hline(yintercept=0, color=colors$grey) + 
+		xlab("ZT") + ylab("Methylation change") + 
+		ylim(yrange) + 
+		geom_hline(yintercept=0, color="#AAAAAA", size=0.4) + 
 		scale_color_manual(values=c(colors$blue, colors$red), guide=FALSE) + 
-		getUnifiedGGTheme()
-	p2 <- ggplot(dt) + 
-		geom_boxplot(aes(Acro, AgeChange, color=Acro),
-			size=0.3, outlier.size=0.3) + 
-		xlab("Acrophase") + ylab("A25 - A9") + 
-		geom_hline(yintercept=0, color=colors$grey) + 
-		scale_color_manual(values=c(colors$blue, colors$red), guide=FALSE) + 	
-		getUnifiedGGTheme()
-	multiplot(p1, p2, cols=2)	
+		getUnifiedGGTheme(plot.margin=margin(l=0))
+
+
+	p2 <- ggplot(dt2[, list(mean(AgeChange), sd(AgeChange)), list(Acro, P)],
+		aes(P, V1, color=Acro)) + 
+		geom_point(size=0.3) + 
+		# geom_smooth(size=0.3) +
+		geom_hline(yintercept=0, color="#AAAAAA", size=0.4) + 
+		ylim(yrange) + 
+		xlab("P-value bin") + 
+		ylab("") + 
+		scale_color_manual("Acrophase", values=c(colors$blue, colors$red)) + 
+		theme(legend.position=c(0.5, 0.8),
+				legend.direction="vertical",
+				legend.key.size=unit(0.2, "cm")) + 
+		getUnifiedGGTheme(
+			plot.margin=margin(l=-10))
+
+	grid.arrange(p1, p2, ncol=2)
 }
-
-
-
-

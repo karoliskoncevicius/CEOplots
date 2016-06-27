@@ -2,7 +2,7 @@
 # This function can be augmented with parameters
 # that will adjust the theme
 
-getUnifiedGGTheme <- function() { 
+getUnifiedGGTheme <- function(...) { 
   require(ggplot2)
   theme(
     text=element_text(size=7, color="black"),
@@ -11,5 +11,7 @@ getUnifiedGGTheme <- function() {
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     panel.border = element_blank(),
-    panel.background = element_blank())  
+    panel.background = element_blank(),
+    ...
+    )
 }
