@@ -24,7 +24,7 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
        )
 
   if(!is.null(ctrlH)) {
-    plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5))
+    plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5), border=colBorder)
   }
 
   par(lwd=1)
