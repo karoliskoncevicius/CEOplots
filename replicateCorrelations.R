@@ -1,3 +1,11 @@
+### biological vs technical correlations
+# INPUT
+# 4 vectors of equal length
+# Tissue = parent group (Liver/Lung)
+# Age = subgroup (9mo,15mo,25mo)
+# Cor = pairwise correlation values
+# Relation = legend label for biological and/or technical test
+
 source("colors.R")
 source("ggtheme.R")
 
