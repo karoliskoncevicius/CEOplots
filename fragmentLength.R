@@ -6,9 +6,11 @@ plotFragmentLength <- function(ints, lengths, start=200, end=700, res="ACGT",
                                col=colors$orange, lineCol=colors$green
                                ) {
 
+  col <- adjustcolor(col, 0.99)
+
   par(mar=c(2.5,3,2,1))
   plot(lengths, ints, col=col, xlim=xlim, ylim=ylim, pch=19, las=1, xaxt="n",
-       yaxt="n", xlab="", ylab="", cex=0.5
+       yaxt="n", xlab="", ylab="", cex=0.3
        )
 
   axis(side=1, cex.axis=0.72, mgp=c(3,0.5,0))
