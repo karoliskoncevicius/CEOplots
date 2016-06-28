@@ -93,3 +93,38 @@ plotPermutationsNoCtrl <- function(realCase,
   mtext(3, at=realCase, text=paste("p = ", pCase), col=colCase, ps=7)
   
 }
+
+
+# This function does the same as above, but using ggplot2
+plotPermutationsNoCtrl_GG <- function(
+  realCase, 
+  permCase,
+  colCase=colors$blue,
+  title=NULL,
+  xlab="",
+  ylab="Count"
+) {
+
+
+  p <- mean(permCase > realCase)
+  if (all.equal(p, 0) == TRUE) { 
+    p <- 1 / length(permCase)
+  }
+  p <- format(p, scientific=TRUE, digits=2)
+  if (!is.null(title))
+    title <- paste0(title, "\n", "p = ", p)
+  else 
+    title <- paste0("p = ", p)
+
+  ggplot(data.table(permCase), aes(permCase)) + 
+    geom_histogram(fill=adjustcolor(colCase, 0.5), color="#AAAAAA", 
+      bins=50, size=0.25) + 
+    geom_vline(xintercept=realCase, color=colCase, size=0.4) +
+    scale_y_continuous(breaks=scales::pretty_breaks(n=8),
+      labels=scales::comma) + 
+    xlab(xlab) + 
+    ylab(ylab) + 
+    ggtitle(title) +
+    getUnifiedGGTheme()
+
+}
