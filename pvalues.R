@@ -28,8 +28,9 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
   pCase <- round(mean(pvalsCase <= 0.05), 3)*100
   pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
   sigs <- c(pCase, pCtrl)
-  legend("topright", legend=paste0(c("real (", "control ("), sigs, "% significant)"),
-         fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5))
+  legend("topright", legend=paste(c("real", "control"), sigs, "%"),
+         fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)),
+         title="% significant"
          )
 
 }
