@@ -13,6 +13,7 @@ getUnifiedGGTheme <- function(...) {
     panel.grid.minor = element_blank(),
     panel.border = element_blank(),
     panel.background = element_blank(),
+    axis.text=element_text(size=7),
     ...
     )
 }
