@@ -1,6 +1,8 @@
 source("colors.R")
 
-plotSurface <- function(ints, coords, ZT, palette=c(colors$blue, colors$blue, "#EBEBEB", colors$red, colors$red)) {
+plotSurface <- function(ints, coords, ZT, centromere,
+                        palette=c(colors$blue, colors$blue, "#EBEBEB", colors$red, colors$red)
+                        ) {
   ordered <- order(coords)
   coords <- coords[ordered]
   ints   <- ints[ordered,]
@@ -19,7 +21,8 @@ plotSurface <- function(ints, coords, ZT, palette=c(colors$blue, colors$blue, "#
   ints <- cbind(ints, ints)
 
   # Fix Centromere
-  maxGap  <- which.max(diff(coords))
+  maxGap1  <- which.min(abs(coords-centromere[1]))
+  maxGap2  <- which.min(abs(coords-centromere[2]))
 
   scaleX <- max(coords)/100
   x <- coords/scaleX
@@ -29,7 +32,8 @@ plotSurface <- function(ints, coords, ZT, palette=c(colors$blue, colors$blue, "#
   z <- z - min(z, na.rm=TRUE)
   z <- z/max(z, na.rm=TRUE)
   z <- z * 15
-  z[maxGap,] <- NA
+  z[maxGap1,] <- NA
+  z[maxGap2,] <- NA
 
   colorzjet <- colorRampPalette(palette)(100)
 
