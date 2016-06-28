@@ -12,7 +12,7 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   # start  <- min(permCase, permCtrl, realCase, realCtrl)*0.9
   xstart  <- seq(0,1,0.05)[ceiling(min(realCase,permCase,realCtrl,permCtrl)/0.05)]
   xend    <- seq(0,1,0.05)[ceiling(max(realCase,permCase,realCtrl,permCtrl)/0.05)+1]
-  breaks <- seq(xstart, end, length.out=50)
+  breaks <- seq(xstart, xend, length.out=50)
 
   caseH <- hist(permCase, plot=FALSE, breaks=breaks)
   if(!is.null(permCtrl)) {
@@ -36,6 +36,7 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   par(lwd=1)
   ticks <- seq(xstart, xend, 0.05)
   labels <- format(ticks, digits=1)
+  labels[1] <- 0
   axis(side=1, pos=0, at=ticks, labels=labels, cex.axis=0.72, mgp=c(3,0.5,0))
   ticks <- pretty(c(caseH$counts, ctrlH$counts))
   axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=xstart,
@@ -56,8 +57,8 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   }
 
   # axis break
-  if(start!=0) {
-    axis.break(1, start+0.005, pos=1)
+  if(xstart!=0) {
+    axis.break(1, xstart+0.01, pos=1)
   }
 
 
