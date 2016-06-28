@@ -1,3 +1,8 @@
+### Plot percent variance of PCs with oscillation status
+# INPUT
+# dat - data matrix (each row is a CpG)
+# zts - ZT time for each column
+
 source("colors.R")
 source("ggtheme.R")
 require(ggplot2);require(scales)
