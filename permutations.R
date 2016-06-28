@@ -1,34 +1,41 @@
 source("colors.R")
 
-plotPermutationsCaseCtrl <- function(realCase, permCase, realCtrl, permCtrl,
-                                 colCase=colors$blue, colCtrl=colors$red,
-                                 colBorder=colors$grey
-                                 ) {
+plotPermutationsCaseCtrl <- function(realCase, permCase,
+                                     realCtrl=NULL, permCtrl=NULL,
+                                     colCase=colors$blue, colCtrl=colors$red,
+                                     colBorder=colors$grey
+                                     ) {
 
   # start  <- min(permCase, permCtrl, realCase, realCtrl)*0.9
-  start  <- seq(0,1,0.05)[ceiling(min(realCase,permCase,realCtrl,permCtrl)/0.05)]
-  end    <- max(permCase, permCtrl, realCase, realCtrl)*1.1
-  breaks <- seq(start, end, length.out=50)
+  xstart  <- seq(0,1,0.05)[ceiling(min(realCase,permCase,realCtrl,permCtrl)/0.05)]
+  xend    <- seq(0,1,0.05)[ceiling(max(realCase,permCase,realCtrl,permCtrl)/0.05)+1]
+  breaks <- seq(xstart, end, length.out=50)
 
   caseH <- hist(permCase, plot=FALSE, breaks=breaks)
-  ctrlH <- hist(permCtrl, plot=FALSE, breaks=breaks)
+  if(!is.null(permCtrl)) {
+    ctrlH <- hist(permCtrl, plot=FALSE, breaks=breaks)
+  } else {
+    ctrlH <- NULL
+  }
 
-  xend <- end # max x-axis limit
   yend <- max(caseH$counts, ctrlH$counts)*1.1
 
   par(mar=c(2.5,3,2,1), lwd=0.25)
   plot(caseH, ylim=c(0,yend), las=1, xaxt='n', yaxt='n', ylab="", xlab="",
-       col=adjustcolor(colCase, 0.5), main="", xlim=c(start,xend),
+       col=adjustcolor(colCase, 0.5), main="", xlim=c(xstart,xend),
        border=colBorder, 
        )
-  plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5), border=colBorder)
+
+  if(!is.null(ctrlH)) {
+    plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5), border=colBorder)
+  }
 
   par(lwd=1)
-  ticks <- pretty(c(start, xend))
+  ticks <- seq(xstart, xend, 0.05)
   labels <- format(ticks, digits=1)
   axis(side=1, pos=0, at=ticks, labels=labels, cex.axis=0.72, mgp=c(3,0.5,0))
   ticks <- pretty(c(caseH$counts, ctrlH$counts))
-  axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=start,
+  axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=xstart,
        cex.axis=0.72
        )
 
@@ -36,12 +43,14 @@ plotPermutationsCaseCtrl <- function(realCase, permCase, realCtrl, permCtrl,
   mtext("Count", 2, line=2)
 
   abline(v=realCase, lwd=1, col=colCase)
-  abline(v=realCtrl, lwd=1, col=colCtrl)
-
   pCase <- mean(permCase >= realCase)
-  pCtrl <- mean(permCtrl >= realCtrl)
   mtext(3, at=realCase, text=paste("p = ", pCase), col=colCase, ps=7)
-  mtext(3, at=realCtrl, text=paste("p = ", pCtrl), col=colCtrl, ps=7)
+
+  if(!is.null(ctrlH)) {
+    abline(v=realCtrl, lwd=1, col=colCtrl)
+    pCtrl <- mean(permCtrl >= realCtrl)
+    mtext(3, at=realCtrl, text=paste("p = ", pCtrl), col=colCtrl, ps=7)
+  }
 
   # legx <- xend-((xend-start)/2.5)
   # legy <- yend
