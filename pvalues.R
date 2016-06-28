@@ -1,6 +1,6 @@
 source("colors.R")
 
-plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl,
+plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
                                 xlab="oscillation p-value",
                                 legendLabels=c("real", "control"),
                                 colCase=colors$blue, colCtrl=colors$red,
@@ -10,7 +10,12 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl,
   breaks <- seq(0, 1, length.out=50)
 
   caseH <- hist(pvalsCase, plot=FALSE, breaks=breaks)
-  ctrlH <- hist(pvalsCtrl, plot=FALSE, breaks=breaks)
+
+  if(!is.null(pvalsCtrl)) {
+    ctrlH <- hist(pvalsCtrl, plot=FALSE, breaks=breaks)
+  } else {
+    ctrlH <- NULL
+  }
 
   par(mar=c(2.5,3,2,1), lwd=0.25)
   plot(caseH, ylim=range(0, caseH$counts, ctrlH$counts), las=1, xaxt='n',
@@ -34,18 +39,21 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl,
   legy <- max(caseH$counts, ctrlH$counts)
   yoff <- legy/7
 
-  pCase <- round(mean(pvalsCase <= 0.05), 3)*100
   if(!is.null(ctrlH)) {
+    pCase <- round(mean(pvalsCase <= 0.05), 3)*100
     pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
+    sigs <- c(pCase, pCtrl)
+    legend("topright", legend=paste(legendLabels, sigs, "%"),
+           fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)),
+           title="% significant"
+           )
   } else {
-    pCtrl <- NULL
+    pCase <- round(mean(pvalsCase <= 0.05), 3)*100
+    sig <- pCase
+    legend("topright", legend=paste(legendLabels[1], sig, "%"),
+           fill=adjustcolor(colCase, 0.5), title="% significant"
+           )
   }
-
-  sigs <- c(pCase, pCtrl)
-  legend("topright", legend=paste(legendLabels, sigs, "%"),
-         fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)),
-         title="% significant"
-         )
 
 }
 
