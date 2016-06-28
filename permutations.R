@@ -7,7 +7,8 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
                                      xlab=expression(paste(average," ", R^2)),
                                      xstep=0.05, xmax=1,
                                      colCase=colors$blue, colCtrl=colors$red,
-                                     colBorder=colors$grey
+                                     colBorder=colors$grey,
+                                     alternative="greater"
                                      ) {
 
   # start  <- min(permCase, permCtrl, realCase, realCtrl)*0.9
@@ -48,12 +49,18 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   mtext("Count", 2, line=2)
 
   abline(v=realCase, lwd=1, col=colCase)
-  pCase <- mean(permCase >= realCase)
+  if (alternative=="greater")
+    pCase <- mean(permCase >= realCase)
+  else 
+    pCase <- mean(permCase <= realCase)
   mtext(3, at=realCase, text=paste("p = ", pCase), col=colCase, ps=7)
 
   if(!is.null(ctrlH)) {
     abline(v=realCtrl, lwd=1, col=colCtrl)
-    pCtrl <- mean(permCtrl >= realCtrl)
+    if (alternative=="greater")
+      pCtrl <- mean(permCtrl >= realCtrl)
+    else 
+      pCtrl <- mean(permCtrl <= realCtrl)
     mtext(3, at=realCtrl, text=paste("p = ", pCtrl), col=colCtrl, ps=7)
   }
 
