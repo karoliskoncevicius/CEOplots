@@ -1,7 +1,10 @@
 source("colors.R")
 
+library(plotrix)
+
 plotPermutationsCaseCtrl <- function(realCase, permCase,
                                      realCtrl=NULL, permCtrl=NULL,
+                                     xlab="Count",
                                      colCase=colors$blue, colCtrl=colors$red,
                                      colBorder=colors$grey
                                      ) {
@@ -40,7 +43,7 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
        )
 
   mtext(expression(paste(average," ", R^2)), 1, line=1.5)
-  mtext("Count", 2, line=2)
+  mtext(xlab, 2, line=2)
 
   abline(v=realCase, lwd=1, col=colCase)
   pCase <- mean(permCase >= realCase)
@@ -51,6 +54,12 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
     pCtrl <- mean(permCtrl >= realCtrl)
     mtext(3, at=realCtrl, text=paste("p = ", pCtrl), col=colCtrl, ps=7)
   }
+
+  # axis break
+  if(start!=0) {
+    axis.break(1, start+0.005, pos=1)
+  }
+
 
   # legx <- xend-((xend-start)/2.5)
   # legy <- yend
