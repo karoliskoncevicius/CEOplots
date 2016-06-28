@@ -11,13 +11,12 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
 
   par(mar=c(3,3,2,1))
   plot(caseH, ylim=range(0, caseH$counts, ctrlH$counts), las=1, xaxt='n',
-       yaxt='n', cex.lab=1.2, xlab="", ylab="",
-       col=adjustcolor(colCase, 0.5), main=""
+       yaxt='n', xlab="", ylab="", col=adjustcolor(colCase, 0.5), main=""
        )
   plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5))
 
-  axis(side=1, pos=0, cex.axis=0.7)
-  axis(side=2, las=1, pos=0, cex.axis=0.7)
+  axis(side=1, pos=0)
+  axis(side=2, las=1, pos=0)
 
   mtext("oscillation p-value", 1, line=2)
   mtext("Count", 2, line=2)
@@ -30,7 +29,7 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
   pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
   sigs <- c(pCase, pCtrl)
   legend("topright", legend=paste0(c("real (", "control ("), sigs, "% significant)"),
-         fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)), cex=0.7
+         fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5))
          )
 
 }
