@@ -66,7 +66,8 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
 
   # axis break
   if(xstart!=0) {
-    axis.break(1, xstart+0.01, pos=1)
+    breakpos <- xstart+(xend-xstart)/30
+    axis.break(1, breakpos, pos=1)
   }
 
 
