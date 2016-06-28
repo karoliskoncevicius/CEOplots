@@ -1,24 +1,33 @@
 source("colors.R")
 
-plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
-                            colCtrl=colors$red
-                            ) {
+plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl,
+                                xlab="oscillation p-value",
+                                legendLabels=c("real", "control"),
+                                colCase=colors$blue, colCtrl=colors$red,
+                                colBorder=colors$grey
+                                ) {
 
   breaks <- seq(0, 1, length.out=50)
 
   caseH <- hist(pvalsCase, plot=FALSE, breaks=breaks)
   ctrlH <- hist(pvalsCtrl, plot=FALSE, breaks=breaks)
 
-  par(mar=c(3,3,2,1))
+  par(mar=c(2.5,3,2,1), lwd=0.25)
   plot(caseH, ylim=range(0, caseH$counts, ctrlH$counts), las=1, xaxt='n',
-       yaxt='n', xlab="", ylab="", col=adjustcolor(colCase, 0.5), main=""
+       yaxt='n', xlab="", ylab="", col=adjustcolor(colCase, 0.5), main="",
+       border=colBorder
        )
-  plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5))
 
-  axis(side=1, pos=0)
-  axis(side=2, las=1, pos=0)
+  if(!is.null(ctrlH)) {
+    plot(ctrlH, add=TRUE, col=adjustcolor(colCtrl, 0.5))
+  }
 
-  mtext("oscillation p-value", 1, line=2)
+  par(lwd=1)
+  ticks <- seq(0,1,0.25)
+  axis(side=1, pos=0, at=ticks, cex.axis=0.72)
+  axis(side=2, las=1, pos=0, cex.axis=0.72)
+
+  mtext("oscillation p-value", 1, line=1.5)
   mtext("Count", 2, line=2)
 
   legx <- 1-(1/3)
@@ -26,9 +35,14 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl, colCase=colors$blue,
   yoff <- legy/7
 
   pCase <- round(mean(pvalsCase <= 0.05), 3)*100
-  pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
+  if(!is.null(ctrlH)) {
+    pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
+  } else {
+    pCtrl <- NULL
+  }
+
   sigs <- c(pCase, pCtrl)
-  legend("topright", legend=paste(c("real", "control"), sigs, "%"),
+  legend("topright", legend=paste(legendLabels, sigs, "%"),
          fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)),
          title="% significant"
          )

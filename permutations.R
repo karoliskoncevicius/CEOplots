@@ -4,14 +4,14 @@ library(plotrix)
 
 plotPermutationsCaseCtrl <- function(realCase, permCase,
                                      realCtrl=NULL, permCtrl=NULL,
-                                     xlab="Count",
+                                     xlab="Count", xstep=0.05, xmax=1,
                                      colCase=colors$blue, colCtrl=colors$red,
                                      colBorder=colors$grey
                                      ) {
 
   # start  <- min(permCase, permCtrl, realCase, realCtrl)*0.9
-  xstart  <- seq(0,1,0.05)[ceiling(min(realCase,permCase,realCtrl,permCtrl)/0.05)]
-  xend    <- seq(0,1,0.05)[ceiling(max(realCase,permCase,realCtrl,permCtrl)/0.05)+1]
+  xstart  <- seq(0,xmax,xstep)[ceiling(min(realCase,permCase,realCtrl,permCtrl)/xstep)]
+  xend    <- seq(0,xmax,xstep)[ceiling(max(realCase,permCase,realCtrl,permCtrl)/xstep)+1]
   breaks <- seq(xstart, xend, length.out=50)
 
   caseH <- hist(permCase, plot=FALSE, breaks=breaks)
@@ -34,7 +34,7 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   }
 
   par(lwd=1)
-  ticks <- seq(xstart, xend, 0.05)
+  ticks <- seq(xstart, xend, xstep)
   labels <- format(ticks, digits=1)
   labels[1] <- ""
   axis(side=1, pos=0, at=ticks, labels=labels, cex.axis=0.72, mgp=c(3,0.5,0))
