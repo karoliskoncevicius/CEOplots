@@ -28,11 +28,17 @@ plotVolcano <- function(
     scale_color_manual(values=c(nonSignificant, positive, negative), guide=FALSE) + 
     geom_vline(xintercept=0)+
     getUnifiedGGTheme()+
-    theme(axis.line.y=element_blank())+
-    geom_text(data=data.frame("X"=c(rng/2,-rng/2),
-                              "Y"=c(max(pd$Y),max(pd$Y))*0.9,
-                              "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),c("HyperM","HypoM"))),
-              aes(X,Y,label=Label),color="grey70")
+    theme(axis.line.y=element_blank())
+    # JG>> Why do we need the following??
+    # +
+    # geom_text(data=data.frame("X"=c(rng/2,-rng/2),
+    #                           "Y"=c(0, 0),
+    #                           "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),"\n",c("HyperM","HypoM"))),
+    #           aes(X,Y,label=Label),
+    #           color="black",
+    #           size=3,
+    #           vjust=-.2
+    #           )
  
   
   
