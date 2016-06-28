@@ -26,8 +26,8 @@ plotPermutationsCaseCtrl <- function(realCase, permCase, realCtrl, permCtrl,
 
   mtext(expression(paste(average," ", R^2)), 1, line=2)
 
-  abline(v=realCase, lwd=3, col=colCase)
-  abline(v=realCtrl, lwd=3, col=colCtrl)
+  abline(v=realCase, lwd=2, col=colCase)
+  abline(v=realCtrl, lwd=2, col=colCtrl)
 
   pCase <- mean(permCase >= realCase)
   pCtrl <- mean(permCtrl >= realCtrl)
@@ -77,7 +77,7 @@ plotPermutationsNoCtrl <- function(realCase,
   
   mtext(expression(paste(average," ", R^2)), 1, line=2)
   
-  abline(v=realCase, lwd=3, col=colCase)
+  abline(v=realCase, lwd=2, col=colCase)
   
   pCase <- mean(permCase >= realCase)
   mtext(3, at=realCase, text=paste("p = ", pCase), col=colCase, ps=7)
