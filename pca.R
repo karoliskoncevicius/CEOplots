@@ -36,3 +36,26 @@ plotPCA <- function(dat,zts){
                  panel.background = element_blank(),
                  axis.text=element_text(size=8)))
 }
+
+pooledHR <- function(data,zts,per=24,nc=parallel::detectCores()-1){
+  runtime <- system.time({
+    cat(sprintf("Running pooledHR() on %i cores ",as.numeric(nc)))
+    require(cluster);require(foreach);require(doParallel)
+    registerDoParallel(cores=nc)
+    data <- as.matrix(data)
+    sinterm <- sin(2*pi/per*zts); costerm <- cos(2*pi/per*zts)
+    results <- mclapply(1:nrow(data),function(i){
+      if(i%%10000==0){write.table(i,".update.txt")}
+      lmfit <- lm(data[i,] ~ sinterm+costerm)
+      lmnull <- lm(data[i,] ~ 1)
+      c(anova(lmfit,lmnull)$`Pr(>F)`[2],summary(lmfit)$r.squared,lmfit$coefficients)
+    },mc.cores=nc)
+  })[3]
+  results <- t(sapply(results,function(x) x))
+  write.table("done",".update.txt")
+  results <- cbind(results,apply(results,1,function(x) sqrt(x[4]^2+x[5]^2)))
+  results <- cbind(results,apply(results,1,function(x) (atan2(x[4],x[5])/2/pi*per+per)%%per))
+  results[which(is.na(results[,1])),1] <- 1
+  cat(sprintf("finished in %f seconds\n",runtime))
+  return(results)
+}
