@@ -1,6 +1,13 @@
 source("colors.R")
+source("ggtheme.R")
 
 library(ggplot2); library(gridExtra)
+
+
+# NOTE, the acrophase plot can be increased as follows:
+# require(grid)
+# print(plotAcros(...), vp=viewport(x=0.3, y=0.3, width=2.6, height=2.6))
+
 
 plotAcros <- function(acrs, pvals, blue=colors$blue, red=colors$red) {
 
@@ -19,19 +26,13 @@ plotAcros <- function(acrs, pvals, blue=colors$blue, red=colors$red) {
     scale_fill_manual("", labels=c("< 10%", "> 10%"), values=c(blue, red), guide=FALSE) +
     scale_color_manual("", labels=c("< 10%", "> 10%"), values=c(blue, red), guide=FALSE) +
     ylim(-5, 15) +
-
-    theme(text=element_text(size=7, color="red"),
-          panel.grid = element_blank(),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.border = element_blank(),
-          panel.background = element_blank(),
+    getUnifiedGGTheme(
           axis.text.x=element_blank(),
           axis.text.y=element_blank(),
           axis.title.y=element_blank(),
           axis.line=element_blank(),
-          axis.ticks=element_blank())
-
+          axis.ticks=element_blank()      
+      )
     p1
 }
 
