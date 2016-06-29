@@ -30,8 +30,10 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
   par(lwd=1)
   ticks <- seq(0,1,0.25)
   axis(side=1, pos=0, at=ticks, cex.axis=0.72, mgp=c(3,0.5,0))
-  axis(side=2, las=1, pos=0, cex.axis=0.72)
-
+  ticks <- pretty(c(caseH$counts, ctrlH$counts))
+  axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=0,
+       cex.axis=0.72
+  )
   mtext(xlab, 1, line=1.5)
   mtext("Count", 2, line=2)
 
