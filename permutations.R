@@ -86,38 +86,3 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   #        )
 
 }
-
-
-
-
-plotPermutationsNoCtrl <- function(realCase, 
-                                   permCase,
-                                   colCase=colors$blue
-) {
-  
-  start  <- min(permCase, realCase)*0.9
-  end    <- max(permCase, realCase)*1.1
-  breaks <- seq(start, end, length.out=50)
-  
-  caseH <- hist(permCase, plot=FALSE, breaks=breaks)
-  
-  xend <- end # max x-axis limit
-  yend <- max(caseH$counts)*1.1
-  
-  par(mar=c(3,4,2,1))
-  plot(caseH, ylim=c(0,yend), las=1, xaxt='n', yaxt='n', ylab="Count",
-       col=adjustcolor(colCase, 0.5), main="", xlim=c(start,xend)
-  )
-  
-  axis(side=1, pos=0, ps=7)
-  ticks <- pretty(c(caseH$counts))
-  axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=start)
-  
-  mtext(expression(paste(average," ", R^2)), 1, line=2)
-  
-  abline(v=realCase, lwd=2, col=colCase)
-  
-  pCase <- mean(permCase >= realCase)
-  mtext(3, at=realCase, text=paste("p = ", pCase), col=colCase, ps=7)
-  
-}
