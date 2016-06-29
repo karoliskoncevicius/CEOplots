@@ -32,7 +32,7 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
   axis(side=1, pos=0, at=ticks, cex.axis=0.72, mgp=c(3,0.5,0))
   axis(side=2, las=1, pos=0, cex.axis=0.72)
 
-  mtext("oscillation p-value", 1, line=1.5)
+  mtext(xlab, 1, line=1.5)
   mtext("Count", 2, line=2)
 
   legx <- 1-(1/3)
