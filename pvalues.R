@@ -76,7 +76,7 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   sigs <- c(pCase, pCtrl)
   
   par(mar=c(5,4.5,1,2),cex=1)
-  maintitle = paste("\n",sigs[2]," % P-value < 0.05\n",sigs[1]," % Q-value < 0.05",sep="")
+  maintitle = paste("\n",sigs[2]," % P-value < 0.05\n",sigs[1]," % Bonferroni < 0.05",sep="")
   barplot(rbind(ctrlH$counts,caseH$counts),space=0,ylim=range(0, caseH$counts+ctrlH$counts), las=1,
           yaxt='n', cex.lab=1.2, xlab="aging p-value", ylab="Count", xaxt='n',
           col=adjustcolor(c(colCase,colCtrl), 0.5),main=maintitle,cex.main=1
@@ -90,7 +90,7 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   axis(side=2,pos=0,at = seq(0,legy,by=1e3),las=2,
        labels = format(seq(0,legy,by=1e3), big.mark=",", scientific=FALSE),cex.axis=0.7)
   
-  legend(x=legx,y=yoff, legend=c("q-value < 0.05", "q-value > 0.05"),
+  legend(x=legx,y=yoff, legend=c("Bonferroni < 0.05", "Bonferroni > 0.05"),
          fill=c(adjustcolor(colCtrl, 0.5), adjustcolor(colCase, 0.5)), cex=0.7
   )
   
