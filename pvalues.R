@@ -63,7 +63,8 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
 plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
                            pvalsCtrl, #bonferroni nonsignficant Pvalues
                            colCase=colors$blue,
-                           colCtrl=colors$red
+                           colCtrl=colors$red,
+                           colBorder=colors$grey
 ) {
   
   breaks <- seq(0, 1, length.out=50)
@@ -75,11 +76,11 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
   sigs <- c(pCase, pCtrl)
   
-  par(mar=c(5,4.5,1,2),cex=1)
+  par(mar=c(5,4.5,1,2),lwd=0.25)
   maintitle = paste("\n",sigs[2]," % P-value < 0.05\n",sigs[1]," % Bonferroni < 0.05",sep="")
   barplot(rbind(ctrlH$counts,caseH$counts),space=0,ylim=range(0, caseH$counts+ctrlH$counts), las=1,
           yaxt='n', cex.lab=1.2, xlab="aging p-value", ylab="Count", xaxt='n',
-          col=adjustcolor(c(colCase,colCtrl), 0.5),main=maintitle,cex.main=1
+          col=adjustcolor(c(colCase,colCtrl), 0.5),main=maintitle,cex.main=1,border=colBorder
   )
   
   legx <- 20
