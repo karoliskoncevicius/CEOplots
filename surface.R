@@ -40,8 +40,8 @@ plotSurface <- function(ints, coords, ZT, centromere,
   par3d("windowRect"=c(0,0,800,800))
   view3d(theta=-100, phi=30, fov=30)
   rgl.surface(x, y, z, color=colorzjet[ findInterval(z, seq(0, 15, length=100))], specular="black", lit=FALSE)
-  labels <- ZT
-  ticks  <- y
+  labels <- ZT[seq(1, length(ZT), 2)]
+  ticks  <- y[seq(1, length(y), 2)]
   axes3d("z--", labels=FALSE, at=ticks, col="black")
   axes3d("z--", labels=labels, at=ticks, col="black")
   inds   <- seq(1, length(x), 50)
