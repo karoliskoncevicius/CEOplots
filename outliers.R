@@ -1,11 +1,13 @@
 ### Plot intersample correlations and indicate outliers
 # INPUT
 # 5 vectors of equal length
-# vals - mean correlation values
+# cors - mean correlation values
 # set - name of set/lot/tissue/age etc.
 # isoutlier - is less than mean-3sd
-# ID - unique ID for sample
-# lab - ZT/mouse ID
+# setID - unique ID for sample
+# ztlabel - ZT/mouse ID
+
+library(ggplot2)
 
 source("ggtheme.R")
 source("colors.R")
