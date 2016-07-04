@@ -30,6 +30,7 @@ plotVolcano <- function(
     getUnifiedGGTheme()+
     theme(axis.line.y=element_blank())
     # JG>> Why do we need the following??
+    # MC>>> Added information for asymmetry (Gabe can delete if unnecessary)
     # +
     # geom_text(data=data.frame("X"=c(rng/2,-rng/2),
     #                           "Y"=c(0, 0),
