@@ -20,7 +20,8 @@ plotOutliers <- function(cors,set,isoutlier,setID,ztlabel){
                        "ID"=setID,
                        "lab"=ztlabel)
   
-  ggplot(subset(plotdf,!lt3sd),aes(Set,vals,color=lt3sd,group=ID))+
+  # ggplot(subset(plotdf,!lt3sd),aes(Set,vals,color=lt3sd,group=ID))+
+    ggplot(plotdf,aes(Set,vals,color=lt3sd,group=ID))+
     geom_point(position=position_dodge(width=0.5),size=0.25)+
     geom_text(data=subset(plotdf,lt3sd),aes(Set,vals,label=lab),
               position = position_dodge(width=0.5),angle=270,size=7*5/14)+
