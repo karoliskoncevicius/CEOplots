@@ -14,7 +14,7 @@ plotDensities <- function(ints, lots, cols,xlab="array intensity") {
 
   par(mar=c(3,3,2,1))
   plot(NA, xlim=xlim, ylim=ylim, las=1)
-  mapply(points, dens, type="l", col=colors)
+  mapply(points, dens, type="l", col=adjustcolor(colors,alpha.f = 0.3))
 
   mtext("density", 2, line=2)
   mtext(xlab, 1, line=2)
