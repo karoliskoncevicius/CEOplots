@@ -87,9 +87,11 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   legy <- max(caseH$counts+ctrlH$counts)
   yoff <- legy/2
   
+  ticks <- pretty(caseH$counts+ctrlH$counts)
+  
   axis(side=1, pos=0, cex.axis=0.7,at = seq(0,50,length.out = 5),labels=seq(0,4)/4)
-  axis(side=2,pos=0,at = seq(0,legy,by=1e3),las=2,
-       labels = format(seq(0,legy,by=1e3), big.mark=",", scientific=FALSE),cex.axis=0.7)
+  axis(side=2,pos=0,at = ticks,las=2,
+       labels = format(ticks, big.mark=",", scientific=FALSE),cex.axis=0.7)
   
   legend(x=legx,y=yoff, legend=c("Bonferroni < 0.05", "Bonferroni > 0.05"),
          fill=c(adjustcolor(colCtrl, 0.5), adjustcolor(colCase, 0.5)), cex=0.7
