@@ -5,7 +5,7 @@
 
 source("colors.R")
 
-plotDensities <- function(ints, lots, cols) {
+plotDensities <- function(ints, lots, cols,xlab="array intensity") {
   colors <- rep(cols, table(lots))
   dens   <- apply(ints, 2, density)
 
@@ -17,7 +17,7 @@ plotDensities <- function(ints, lots, cols) {
   mapply(points, dens, type="l", col=colors)
 
   mtext("density", 2, line=2)
-  mtext("array intensity", 1, line=2)
+  mtext(xlab, 1, line=2)
 
   legend("topright", legend=unique(lots), fill=cols, title="Lot")
 }
