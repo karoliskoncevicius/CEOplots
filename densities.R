@@ -5,7 +5,7 @@
 
 source("colors.R")
 
-plotDensities <- function(ints, lots, cols,xlab="array intensity") {
+plotDensities <- function(ints, lots, cols,xlab="array intensity",leglab="Lot") {
   colors <- rep(cols, table(lots))
   dens   <- apply(ints, 2, density)
 
@@ -19,6 +19,6 @@ plotDensities <- function(ints, lots, cols,xlab="array intensity") {
   mtext("density", 2, line=2)
   mtext(xlab, 1, line=2)
 
-  legend("topright", legend=unique(lots), fill=cols, title="Lot")
+  legend("topright", legend=unique(lots), fill=cols, title=leglab)
 }
 
