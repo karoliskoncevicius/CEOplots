@@ -7,6 +7,8 @@
 # setID - unique ID for sample
 # ztlabel - ZT/mouse ID
 
+# pdf(width=4,height=2)
+
 library(ggplot2)
 
 source("ggtheme.R")
