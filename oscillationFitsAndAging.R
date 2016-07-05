@@ -67,6 +67,7 @@ oscilationFitsAndTheirAging <- function(dat) {
 	require(ggplot2)
 	require(foreach)
 	require(gridExtra)
+  require(scales)
 	getFittedCurve <- function(locus, age, dat) {
 		t <- 0:24
 		sinterm <- dat$osc[[age]][locus, "sin"]
@@ -140,7 +141,7 @@ oscilationFitsAndTheirAging <- function(dat) {
 	p1 <- ggplot(dt) + 
 		geom_line(aes(X, Y, color=Acro, group=Locus), alpha=0.1, size=0.25) + 
 		xlab("ZT") + ylab("Methylation change") + 
-		ylim(yrange) + 
+	  scale_y_continuous(limits=yrange,labels=percent) + 
 		geom_hline(yintercept=0, color="#AAAAAA", size=0.4) + 
 		scale_color_manual(values=c(colors$blue, colors$red), guide=FALSE) + 
 		getUnifiedGGTheme(plot.margin=margin(l=0))+
