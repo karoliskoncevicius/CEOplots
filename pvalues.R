@@ -74,7 +74,7 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   ctrlH <- hist(pvalsCtrl, plot=FALSE, breaks=breaks)
   
   pCase <- round(sum(pvalsCase <= 0.05)/length(c(pvalsCtrl,pvalsCase)), 3)*100
-  pCtrl <- round(mean(pvalsCtrl <= 0.05), 3)*100
+  pCtrl <- round(sum(c(pvalsCase,pvalsCtrl) <= 0.05)/length(c(pvalsCtrl,pvalsCase)), 3)*100
   sigs <- c(pCase, pCtrl)
   
   par(mar=c(5,4.5,1,2),lwd=0.25)
