@@ -9,7 +9,8 @@ require(scales)
 require(plyr)
 
 plotDensities <- function(ints, labs, cols, xlab="array intensity",
-                          leglab="Lot", ispct=F, lpos="topright", ...
+                          leglab="Lot", ispct=F, lpos="topright", 
+                          linealpha=0.3, ...
                           ) {
   colors <- mapvalues(labs, from=levels(factor(labs)), to=cols)
   dens   <- lapply(ints, density)
@@ -24,7 +25,7 @@ plotDensities <- function(ints, labs, cols, xlab="array intensity",
   } else {
     plot(NA, xlim=xlim, ylim=ylim, las=1, ...)
   }
-  mapply(points, dens, type="l", col=adjustcolor(colors, alpha.f=0.3))
+  mapply(points, dens, type="l", col=adjustcolor(colors, alpha.f=linealpha))
 
   mtext("density", 2, line=2)
   mtext(xlab, 1, line=2)
