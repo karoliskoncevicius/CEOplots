@@ -3,6 +3,7 @@ source("colors.R")
 plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
                                 xlab="oscillation p-value",
                                 legendLabels=c("real", "control"),
+                                legtitle="% significant",
                                 colCase=colors$blue, colCtrl=colors$red,
                                 colBorder=colors$grey
                                 ) {
@@ -47,13 +48,13 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
     sigs <- c(pCase, pCtrl)
     legend("topright", legend=paste(legendLabels, sigs, "%"),
            fill=c(adjustcolor(colCase, 0.5), adjustcolor(colCtrl, 0.5)),
-           title="% significant"
+           title=legtitle
            )
   } else {
     pCase <- round(mean(pvalsCase <= 0.05), 3)*100
     sig <- pCase
     legend("topright", legend=paste(legendLabels[1], sig, "%"),
-           fill=adjustcolor(colCase, 0.5), title="% significant"
+           fill=adjustcolor(colCase, 0.5), title=legtitle
            )
   }
 
