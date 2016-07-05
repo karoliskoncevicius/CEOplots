@@ -53,9 +53,10 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
   } else {
     pCase <- round(mean(pvalsCase <= 0.05), 3)*100
     sig <- pCase
-    legend("topright", legend=paste(legendLabels[1], sig, "%"),
-           fill=adjustcolor(colCase, 0.5), title=legtitle
-           )
+    mtext(paste(sig,"% Significant",sep=""),side=3)
+    # legend("topright", legend=paste(legendLabels[1], sig, "%"),
+    #        fill=adjustcolor(colCase, 0.5), title=legtitle
+    #        )
   }
 
 }
