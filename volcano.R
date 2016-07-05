@@ -28,18 +28,17 @@ plotVolcano <- function(
     scale_color_manual(values=c(nonSignificant, positive, negative), guide=FALSE) + 
     geom_vline(xintercept=0)+
     getUnifiedGGTheme()+
-    theme(axis.line.y=element_blank())
+    theme(axis.line.y=element_blank())+
   # JG>> Why do we need the following??
   # MC>>> Added information for asymmetry (Gabe can delete if unnecessary)
-  # +
-  # geom_text(data=data.frame("X"=c(rng/2,-rng/2),
-  #                           "Y"=c(0, 0),
-  #                           "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),"\n",c("HyperM","HypoM"))),
-  #           aes(X,Y,label=Label),
-  #           color="black",
-  #           size=3,
-  #           vjust=-.2
-  #           )
+  geom_text(data=data.frame("X"=c(rng/2,-rng/2),
+                            "Y"=c(0, 0),
+                            "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),"\n",c("HyperM","HypoM"))),
+            aes(X,Y,label=Label),
+            color="black",
+            size=3,
+            vjust=-.2
+            )
   
   
   
