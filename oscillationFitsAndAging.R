@@ -68,7 +68,7 @@ oscilationFitsAndTheirAging <- function(dat) {
 	require(foreach)
 	require(gridExtra)
 	getFittedCurve <- function(locus, age, dat) {
-		t <- 1:24
+		t <- 0:24
 		sinterm <- dat$osc[[age]][locus, "sin"]
 		costerm <- dat$osc[[age]][locus, "cos"]
 		intercept <- mean(dat$pctM[[age]][locus,])
@@ -143,7 +143,8 @@ oscilationFitsAndTheirAging <- function(dat) {
 		ylim(yrange) + 
 		geom_hline(yintercept=0, color="#AAAAAA", size=0.4) + 
 		scale_color_manual(values=c(colors$blue, colors$red), guide=FALSE) + 
-		getUnifiedGGTheme(plot.margin=margin(l=0))
+		getUnifiedGGTheme(plot.margin=margin(l=0))+
+	  scale_x_continuous(limits=c(0,24),breaks = seq(0,24,4))
 
 
 	p2 <- ggplot(dt2[, list(mean(AgeChange), sd(AgeChange)), list(Acro, P)],
