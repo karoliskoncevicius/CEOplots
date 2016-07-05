@@ -8,8 +8,8 @@ plotVolcano <- function(
   positive=colors$red,
   xAxisLabel="Coefficient",
   yAxisLabel=expression(-log[10]*'(p-value)'),
-  pAdjustmentMethod="bonferroni",
-  isPercent=F)
+  pAdjustmentMethod="bonferroni"
+)
 {
   require(ggplot2)
   require(data.table)
@@ -29,23 +29,21 @@ plotVolcano <- function(
     geom_vline(xintercept=0)+
     getUnifiedGGTheme()+
     theme(axis.line.y=element_blank())
-    # JG>> Why do we need the following??
-    # MC>>> Added information for asymmetry (Gabe can delete if unnecessary)
-    # +
-    # geom_text(data=data.frame("X"=c(rng/2,-rng/2),
-    #                           "Y"=c(0, 0),
-    #                           "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),"\n",c("HyperM","HypoM"))),
-    #           aes(X,Y,label=Label),
-    #           color="black",
-    #           size=3,
-    #           vjust=-.2
-    #           )
- 
+  # JG>> Why do we need the following??
+  # MC>>> Added information for asymmetry (Gabe can delete if unnecessary)
+  # +
+  # geom_text(data=data.frame("X"=c(rng/2,-rng/2),
+  #                           "Y"=c(0, 0),
+  #                           "Label"=paste(c(sum(pd$Fill==1),sum(pd$Fill==2)),"\n",c("HyperM","HypoM"))),
+  #           aes(X,Y,label=Label),
+  #           color="black",
+  #           size=3,
+  #           vjust=-.2
+  #           )
   
   
-  if(isPercent){
-    p+scale_x_continuous(limits = c(-rng,rng),labels = percent)
-  } else {
-    p+scale_x_continuous(limits = c(-rng,rng))
-  }
+  
+  
+  p+scale_x_continuous(limits = c(-rng,rng),labels = percent)
+  
 }
