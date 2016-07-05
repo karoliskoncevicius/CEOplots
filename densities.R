@@ -9,18 +9,22 @@ require(scales)
 plotDensities <- function(ints, lots, cols,xlab="array intensity",leglab="Lot",ispct=F,lpos="topright") {
   colors <- rep(cols, table(lots))
   dens   <- apply(ints, 2, density)
-
+  
   xlim=range(sapply(dens, "[[", "x"))
   ylim=range(sapply(dens, "[[", "y"))
-
+  
   par(mar=c(3,3,2,1))
-  plot(NA, xlim=xlim, ylim=ylim, las=1, xaxt='n')
+  if(ispct){
+    plot(NA, xlim=xlim, ylim=ylim, las=1, xaxt='n')
+    axis(side=1, at=c(0,0.25,0.5,0.75,1),labels = percent(c(0,0.25,0.5,0.75,1)))
+  }else{
+    plot(NA, xlim=xlim, ylim=ylim, las=1)
+  }
   mapply(points, dens, type="l", col=adjustcolor(colors,alpha.f = 0.3))
-
+  
   mtext("density", 2, line=2)
   mtext(xlab, 1, line=2)
-  if(ispct){axis(side=1, at=c(0,0.25,0.5,0.75,1),labels = percent(c(0,0.25,0.5,0.75,1)))}
-
+ 
   legend(lpos, legend=unique(lots), fill=cols, title=leglab)
 }
 
