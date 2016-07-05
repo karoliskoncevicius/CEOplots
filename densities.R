@@ -4,10 +4,10 @@
 # cols - colors for each lot (length = number of unique lots)
 
 source("colors.R")
-require(scales)
+require(scales);require(plyr)
 
 plotDensities <- function(ints, lots, cols,xlab="array intensity",leglab="Lot",ispct=F,lpos="topright") {
-  colors <- rep(cols, table(lots))
+  colors <- mapvalues(lots,from=levels(factor(lots)),to=cols)
   dens   <- apply(ints, 2, density)
   
   xlim=range(sapply(dens, "[[", "x"))
