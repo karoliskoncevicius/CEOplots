@@ -14,7 +14,9 @@ library(ggplot2)
 source("ggtheme.R")
 source("colors.R")
 
-plotOutliers <- function(cors,set,isoutlier,setID,ztlabel){
+plotOutliers <- function(cors,set,isoutlier,setID,ztlabel,
+                         cols=unlist(colors)[-7]
+                         ){
   
   plotdf <- data.frame("vals"=cors,
                        "Set"=set,
@@ -32,7 +34,6 @@ plotOutliers <- function(cors,set,isoutlier,setID,ztlabel){
     # xlab("")+ylab("")+guides(color=F)+
     # theme(axis.text.x=element_text(angle=90))
     
-  cols <- unlist(colors)[-7]
   names(cols) <- NULL
   
   ggplot(plotdf,aes(Set,vals,fill=Set))+
