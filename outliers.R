@@ -23,6 +23,7 @@ plotOutliers <- function(cors,set,isoutlier,setID,ztlabel,
                        "lt3sd"=isoutlier,
                        "ID"=setID,
                        "lab"=ztlabel)
+  plotdf$Set <- factor(plotdf$Set, levels=unique(plotdf$Set))
   
   # ggplot(subset(plotdf,!lt3sd),aes(Set,vals,color=lt3sd,group=ID))+
     # ggplot(plotdf,aes(Set,vals,color=lt3sd,group=ID))+
