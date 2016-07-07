@@ -21,7 +21,7 @@ plotVolcano <- function(
   
   p <- ggplot(pd, aes(X, Y, 
                       color=as.factor(Fill))) + 
-    geom_point(size=.15, alpha=1) + 
+    geom_point(size=.15, alpha=0.99) + 
     geom_hline(yintercept=-log10(0.05/length(pvalues)),linetype=3)+
     xlab(xAxisLabel) + 
     ylab(yAxisLabel) + 
