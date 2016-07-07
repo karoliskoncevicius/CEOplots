@@ -30,6 +30,6 @@ plotDensities <- function(ints, labs, cols, xlab="array intensity",
   mtext("density", 2, line=2)
   mtext(xlab, 1, line=2)
 
-  legend(lpos, legend=unique(labs), fill=cols, title=leglab)
+  legend(lpos, legend=unique(labs), fill=colors, title=leglab)
 }
 
