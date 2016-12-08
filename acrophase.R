@@ -36,3 +36,83 @@ plotAcros <- function(acrs, pvals, blue=colors$blue, red=colors$red) {
     p1
 }
 
+# plot uncorrected acrophases
+plotUncorrectedAcros <- function(
+  acrs,  # Acrophases
+  pvals, # P-values
+  sigThreshold=0.05, # p-value significance threshold
+  day=colors$green, # Color for daytime bars
+  night=colors$purple, # Color for night-time bars
+  background="grey", # Color for non-significant bars
+  addNonSignificant=FALSE,
+  addCountLabels=TRUE
+  ) 
+{
+  require(data.table)
+  require(ggplot2)
+  require(dplyr)
+
+  # Prepare the data by making a table of values
+  pd <- data.table(acrs=(round(acrs) %% 24+1), Significant = pvals < sigThreshold)
+  pdSignificant <- 
+    data.table(ZT=1:24, Count=pd[Significant==TRUE, table(acrs)]) %>%
+      .[, Density := as.numeric(Count / sum(Count))]
+  pdNonSignificant <- 
+    data.table(ZT=1:24, Count=pd[Significant==FALSE, table(acrs)]) %>%
+      .[, Density := as.numeric(Count / sum(Count))]
+  pd <- merge(pdSignificant, pdNonSignificant, by="ZT")
+  pd[, Color := ifelse(ZT <= 11, "Night", "Day")]
+  setkey(pd, ZT)
+
+  # determine y axis range
+  ylim <- range(pd[, range(Density.x)], pd[, range(Density.y)])
+  ylim[1] <- -ylim[2]
+
+  # determine y position of hour labels
+  ylabel <- -0.05
+  p0 <- 
+    ggplot() + 
+      geom_text(
+        aes(x=seq(3, 24, 3), 
+          y=-0.05, 
+          label=seq(3, 24, 3)), 
+        color="black", 
+        size=2)
+  if (addNonSignificant) {
+    p0 <- p0 + 
+      geom_bar(data=pd, aes(x=ZT, y=Density.y), 
+          stat="identity", fill=background, alpha=0.7, color=background, size=0.4)
+  }
+  p0 <- p0 + 
+    geom_bar(data=pd, aes(x=ZT, y=Density.x, fill=Color, color=Color), 
+      stat="identity", alpha=0.6, size=0.4)
+  if (addCountLabels) {
+    p0 <- p0 + 
+      geom_segment(data=pd[Density.x > Density.y],
+        aes(x=(ZT-5)%%24+1, xend=ZT, y=Density.x, yend=Density.x),
+        color=colors$red, size=0.2, linetype=2
+        ) + 
+      geom_text(data=pd[Density.x > Density.y],
+        aes(x=(ZT-5)%%24+1, y=Density.x, label=as.character(Count.x)),
+        color="black", size=2, hjust=1
+        )    
+  }
+  p0 + 
+    scale_x_continuous("", breaks = seq(1, 24), labels = NULL) +
+    scale_y_continuous("", 
+      breaks=pd[Density.x > Density.y, Density.x],
+      limits=ylim) +
+    scale_color_manual("", values=c(day, night)) + 
+    scale_fill_manual("", values=c(day, night)) + 
+    guides(color=FALSE, fill=FALSE) +
+    coord_polar(start=pi/24 + 2*pi) + 
+    getUnifiedGGTheme(
+        axis.ticks = element_blank(),      
+        axis.text.y=element_blank(),    
+        axis.title.y=element_blank(),
+        axis.line=element_blank(),
+        axis.ticks=element_blank(),    
+        panel.border = element_blank(),
+        legend.key = element_blank()        
+    )
+}
