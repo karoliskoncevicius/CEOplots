@@ -107,12 +107,13 @@ plotUncorrectedAcros <- function(
     guides(color=FALSE, fill=FALSE) +
     coord_polar(start=pi/24 + 2*pi) + 
     getUnifiedGGTheme(
-        axis.ticks = element_blank(),      
-        axis.text.y=element_blank(),    
-        axis.title.y=element_blank(),
-        axis.line=element_blank(),
-        axis.ticks=element_blank(),    
-        panel.border = element_blank(),
-        legend.key = element_blank()        
+      axis.ticks = element_blank(),      
+      axis.text.y=element_blank(),    
+      axis.title.y=element_blank(),
+      axis.line=element_blank(),
+      axis.ticks=element_blank(),    
+      panel.border = element_blank(),
+      legend.key = element_blank()        
     )
+
 }
