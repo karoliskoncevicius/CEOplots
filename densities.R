@@ -10,7 +10,7 @@ require(plyr)
 
 plotDensities <- function(ints, labs, cols, xlab="array intensity",
                           leglab="Lot", ispct=F, lpos="topright", 
-                          linealpha=0.3, ...
+                          linealpha=0.3,ylab="density", ...
                           ) {
   colors <- mapvalues(labs, from=levels(factor(labs)), to=cols)
   dens   <- lapply(ints, density)
@@ -27,7 +27,7 @@ plotDensities <- function(ints, labs, cols, xlab="array intensity",
   }
   mapply(points, dens, type="l", col=adjustcolor(colors, alpha.f=linealpha))
 
-  mtext("density", 2, line=2)
+  mtext(ylab, 2, line=2)
   mtext(xlab, 1, line=2)
 
   legend(lpos, legend=unique(labs), fill=unique(colors), title=leglab)
