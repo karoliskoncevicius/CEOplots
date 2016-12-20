@@ -37,6 +37,36 @@ plotPCA <- function(dat,zts){
                  axis.text=element_text(size=8)))
 }
 
+plotPCAscores <- function(dat,zts,sigcol=colkey$sig,nonsigcol=colkey$nonsig){
+  
+  Nzts <- length(zts)
+  
+  require(reshape2);require(ggplot2)
+  pca <- prcomp(t(dat))
+  
+  VE <- pca$sdev[1:4]^2/sum(pca$sdev^2)*100
+  circP <- pooledHR(t(pca$x[,1:4]),zts)[,1]
+  pcve <- paste(c("PC1","PC2","PC3","PC4"),"(",formatC(VE,digits=3),"%)")
+  
+  plotdf <- melt(pca$x[,1:4])
+  plotdf$pval <- rep(circP,each=Nzts)
+  plotdf$PCVE <- rep(pcve,each=Nzts)
+  
+  maxy <- max(plotdf$value)
+  
+  #pvalue text
+  pd2 <- data.frame("PCVE"=pcve,"circP"=paste("P =",formatC(circP)))
+  
+  p <- ggplot(plotdf,aes(Var1%%24,value,color=pval<0.05))+geom_point(size=0.5)+
+    scale_color_manual(values=c("TRUE"=sigcol,"FALSE"=nonsigcol))+
+    facet_wrap(~PCVE)+getUnifiedGGTheme()+ylab("Score")+
+    geom_smooth(size=0.25,se=F,fullrange=T,method="lm",
+                formula= y ~ sin(x/24*2*pi)+cos(x/24*2*pi))+
+    geom_text(data=pd2,aes(x=18,y=maxy*0.8,color=NA,label=circP),color="black",size=7*5/14)+
+    scale_x_continuous(limits=c(0,24),breaks=seq(0,24,4))+xlab("ZT")
+  return(p)
+}
+
 pooledHR <- function(data,zts,per=24,nc=parallel::detectCores()-1){
   runtime <- system.time({
     cat(sprintf("Running pooledHR() on %i cores ",as.numeric(nc)))
@@ -45,14 +75,14 @@ pooledHR <- function(data,zts,per=24,nc=parallel::detectCores()-1){
     data <- as.matrix(data)
     sinterm <- sin(2*pi/per*zts); costerm <- cos(2*pi/per*zts)
     results <- mclapply(1:nrow(data),function(i){
-      if(i%%10000==0){write.table(i,".update.txt")}
+      # if(i%%10000==0){write.table(i,".update.txt")}
       lmfit <- lm(data[i,] ~ sinterm+costerm)
       lmnull <- lm(data[i,] ~ 1)
       c(anova(lmfit,lmnull)$`Pr(>F)`[2],summary(lmfit)$r.squared,lmfit$coefficients)
     },mc.cores=nc)
   })[3]
   results <- t(sapply(results,function(x) x))
-  write.table("done",".update.txt")
+  # write.table("done",".update.txt")
   results <- cbind(results,apply(results,1,function(x) sqrt(x[4]^2+x[5]^2)))
   results <- cbind(results,apply(results,1,function(x) (atan2(x[4],x[5])/2/pi*per+per)%%per))
   results[which(is.na(results[,1])),1] <- 1
