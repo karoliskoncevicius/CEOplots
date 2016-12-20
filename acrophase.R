@@ -27,17 +27,18 @@ plotAcros <- function(
   ymax <- pd[, max(Count)]
   ymax <- round(ymax) * 1.2
   breaks <- seq(ymax %/% 4, ymax, ymax %/% 4)
+  labels <- formatC(breaks, format="d", big.mark=',')
   if (ymax < 1000) breaks <- round(breaks,-1)
   if (ymax > 1000) breaks <- round(breaks,-2)
   ymax <- breaks[4]
   breaks <- breaks[-4]
+  labels <- labels[-4]
 
   # draw
   ggplot() + 
   geom_hline(yintercept=c(0, breaks),
     color="#DCDCDC", size=0.2) + 
-  geom_text(aes(x=0, y=breaks, 
-    label=breaks), 
+  geom_text(aes(x=0, y=breaks, label=labels), 
     color="black", size=2, vjust=-0.2) + 
   geom_bar(data=pd, aes(x=ZT, y=Count, color=Color, fill=Color),
     stat="identity", alpha=0.6, size=0.2, width=0.8) + 
