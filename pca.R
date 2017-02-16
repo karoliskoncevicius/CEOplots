@@ -63,7 +63,7 @@ plotPCAscores <- function(dat,zts,sigcol=colkey$sig,nonsigcol=colkey$nonsig){
     geom_smooth(size=0.25,se=F,fullrange=T,method="lm",
                 formula= y ~ sin(x/24*2*pi)+cos(x/24*2*pi))+
     geom_text(data=pd2,aes(x=18,y=maxy*0.8,color=NA,label=circP),color="black",size=7*5/14)+
-    scale_x_continuous(limits=c(0,24),breaks=seq(0,24,4))+xlab("ZT")
+    scale_x_continuous(limits=c(0,24),breaks=seq(0,24,6))+xlab("ZT")
   return(p)
 }
 
