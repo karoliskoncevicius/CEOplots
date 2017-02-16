@@ -25,10 +25,9 @@ plotAcros <- function(
   
   #find limits and labels for the y axis
   ymax <- pd[, max(Count)]
-  breaks <- seq(ymax %/% 4, ymax, ymax %/% 4)
-  labels <- formatC(round(breaks,ceiling(-log10(ymax))), format="d", big.mark=',')
-  breaks <- breaks[-length(breaks)]
-  labels <- labels[-length(labels)]
+  int <- pretty(c(0,ymax))[2]
+  breaks <- if(ymax%/%int>5){seq(int*2,ymax,int*2)}else{seq(int,ymax,int)}
+  labels <- formatC(breaks, format="d", big.mark=',')
   
   # draw
   ggplot() + 
