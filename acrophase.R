@@ -9,8 +9,8 @@ plotAcros <- function(
   acrs,  # Acrophases
   pvals, # P-values
   sigThreshold=0.05, # p-value significance threshold
-  day=colors$orange, # Color for daytime bars
-  night=colors$purple, # Color for night-time bars
+  day=colkey$neutral, # Color for daytime bars
+  night=colkey$neutral, # Color for night-time bars
   ylabel="# of OmCs"
 ){
   require(data.table)
