@@ -9,6 +9,7 @@ getUnifiedGGTheme <- function(...) {
     title=element_text(size=7, color="black", margin=margin(2, 2, 0, 0)),
     plot.title=element_text(size=7, color="black"),
     plot.margin=margin(2, 2, 2, 2),
+    axis.ticks = element_line(color="black",size=0.25),
     axis.line.x = element_line(color="black", size=0.25),
     axis.line.y = element_line(color="black", size=0.25),
     panel.grid.major = element_blank(),
