@@ -57,7 +57,7 @@ plotPCAscores <- function(dat,zts,sigcol=colkey$sig,nonsigcol=colkey$nonsig){
   #pvalue text
   pd2 <- data.frame("PCVE"=pcve,"circP"=paste("P =",formatC(circP)))
   
-  p <- ggplot(plotdf,aes(Var1%%24,value,color=pval<0.05))+geom_point(size=0.5)+
+  p <- ggplot(plotdf,aes(Var1%%24,value,color=pval<0.05))+geom_point(size=0.5,alpha=0.99)+
     scale_color_manual(values=c("TRUE"=sigcol,"FALSE"=nonsigcol))+
     facet_wrap(~PCVE)+getUnifiedGGTheme()+ylab("Score")+
     geom_smooth(size=0.25,se=F,fullrange=T,method="lm",
