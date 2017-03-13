@@ -38,7 +38,7 @@ plotPermutationsCaseCtrl <- function(realCase, permCase,
   par(lwd=1)
   ticks <- seq(xstart, xend, xstep)
   labels <- format(ticks, digits=1)
-  labels[1] <- ""
+  labels[1] <- 0
   axis(side=1, pos=0, at=ticks, labels=labels, cex.axis=0.72, mgp=c(3,0.5,0))
   ticks <- pretty(c(caseH$counts, ctrlH$counts))
   axis(side=2, at=ticks, labels=format(ticks, big.mark=","), las=1, pos=xstart,
