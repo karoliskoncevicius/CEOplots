@@ -65,8 +65,8 @@ plotPvaluesCaseCtrl <- function(pvalsCase, pvalsCtrl=NULL,
 ##Pvalue histogram with overlayed multiple test correction significance
 plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
                            pvalsCtrl, #bonferroni nonsignficant Pvalues
-                           colCase=colors$blue,
-                           colCtrl=colors$red,
+                           colCase=colkey$neutral,
+                           colCtrl=colkey$sig,
                            colBorder=colors$grey,
                            ylab="Count"
 ) {
@@ -84,7 +84,7 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
   maintitle = paste("\n",sigs[2]," % P-value < 0.05\n",sigs[1]," % Bonferroni < 0.05",sep="")
   barplot(rbind(ctrlH$counts,caseH$counts),space=0,ylim=range(0, caseH$counts+ctrlH$counts), las=1,
           yaxt='n', cex.lab=1.2, xlab="aging p-value", ylab=ylab, xaxt='n',
-          col=adjustcolor(c(colCase,colCtrl), 0.5),main=maintitle,cex.main=1,border=colBorder
+          col=adjustcolor(c(colCase,colCtrl), 1),main=maintitle,cex.main=1,border=colBorder
   )
   
   legx <- 20
@@ -98,7 +98,7 @@ plotPvaluesMTC <- function(pvalsCase, #bonferroni significant Pvalues
        labels = format(ticks, big.mark=",", scientific=FALSE),cex.axis=0.7)
   
   legend(x=legx,y=yoff, legend=c("Bonferroni < 0.05", "Bonferroni > 0.05"),
-         fill=c(adjustcolor(colCtrl, 0.5), adjustcolor(colCase, 0.5)), cex=0.7
+         fill=c(adjustcolor(colCtrl, 1), adjustcolor(colCase, 1)), cex=0.7
   )
   
 }
