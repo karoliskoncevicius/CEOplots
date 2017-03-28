@@ -4,7 +4,7 @@ source("ggtheme.R")
 plotVolcano <- function(
   coefficients, pvalues, 
   nonSignificant=colors$grey, 
-  negative=colors$blue, 
+  negative=colors$red, 
   positive=colors$red,
   xAxisLabel="Coefficient",
   yAxisLabel=expression(-log[10]*'(p-value)'),
